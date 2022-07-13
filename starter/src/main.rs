@@ -10,8 +10,7 @@ fn main() {
     // Pick two numbers
     // let a: u64 = 17;
     // let b: u64 = 23;
-    let file = File::open("theory/matching-logic-propositional-one-file.mm".clone())
-        .expect("Failed to find file");
+    let file = File::open("theory/matching-logic-240-loc.mm".clone()).expect("Failed to find file");
 
     let file_lines: Vec<String> = BufReader::new(file)
         .lines()
