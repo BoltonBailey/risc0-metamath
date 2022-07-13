@@ -1,7 +1,7 @@
 [package]
+edition = "2021"
 name = "methods-guest"
 version = "0.1.0"
-edition = "2021"
 
 [workspace]
 
@@ -10,3 +10,5 @@ risc0-build = "0.10"
 
 [dependencies]
 risc0-zkvm-guest = "0.10"
+risc0-zkvm-serde = "0.10"
+serde = "1.0"
