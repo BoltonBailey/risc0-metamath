@@ -29,12 +29,13 @@ fn main() {
     let receipt = prover.run().unwrap();
 
     // Extract journal of receipt (i.e. output c, where c = a * b)
-    let out: bool = from_slice(&receipt.get_journal_vec().unwrap()).unwrap();
+    let axioms: Vec<String> = from_slice(&receipt.get_journal_vec().unwrap()).unwrap();
+    let theorems: Vec<String> = from_slice(&receipt.get_journal_vec().unwrap()).unwrap();
 
     // Print an assertion
     println!(
-        "The output of the metamath verifier is {}, and I can prove it!",
-        out
+        "The metamath verifier succeeds, and I can prove it! It uses axioms {:?} and outputs theorems {:?}",
+        axioms, theorems
     );
 
     // Here is where one would send 'receipt' over the network...

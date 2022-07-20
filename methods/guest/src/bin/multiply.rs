@@ -745,8 +745,28 @@ fn main() {
     // }
 
     let out = mm.read(&mut Tokens::new(lines));
+    if !out {
+        panic!("Out should be successful")
+    }
+    let mut axioms = Vec::new();
+    let mut theorems = Vec::new();
+    for (_label, value) in mm.labels {
+        // println!("Label: {}", label);
+        match value.deref() {
+            LabelEntry::DollarA(a) => {
+                // println!("Verifying hypothesis  {:?}", a);
+                axioms.push(a.to_string());
+            }
+            LabelEntry::DollarP(a) => {
+                // println!("Verifying hypothesis  {:?}", a);
+                theorems.push(a.to_string());
+            }
+            LabelEntry::DollarF(_x) | LabelEntry::DollarE(_x) => {}
+        }
+    }
     // mm.dump();
     // let elapsed = now.elapsed();
     // println!("Finished checking in {:.2?}, with result {}", elapsed, out);
-    env::commit(&out);
+    env::commit(&axioms);
+    env::commit(&theorems);
 }
