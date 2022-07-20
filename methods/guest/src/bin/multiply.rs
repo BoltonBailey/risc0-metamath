@@ -160,6 +160,17 @@ pub struct Assertion {
     pub stat: Statement,
 }
 
+impl Assertion {
+    pub fn to_string(&self) -> String {
+        let mut out = String::new();
+        for lt in self.stat.deref() {
+            out.push_str(lt.deref());
+            out.push(' ');
+        }
+        out
+    }
+}
+
 impl FrameStack {
     pub fn push(&mut self) {
         self.list.push(Frame::default());
