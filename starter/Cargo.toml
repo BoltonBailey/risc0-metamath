@@ -1,10 +1,11 @@
 [package]
+edition = "2021"
 name = "starter"
 version = "0.1.0"
-edition = "2021"
 
 [dependencies]
-methods = { path = "../methods" }
+methods = {path = "../methods"}
+risc0-zkp-core = "0.10"
 risc0-zkvm-core = "0.10"
 risc0-zkvm-host = "0.10"
 risc0-zkvm-serde = "0.10"

@@ -1,4 +1,5 @@
 use methods::{MULTIPLY_ID, MULTIPLY_PATH};
+use risc0_zkp_core::sha::Digest;
 use risc0_zkvm_host::Prover;
 use risc0_zkvm_serde::{from_slice, to_vec};
 
@@ -29,13 +30,12 @@ fn main() {
     let receipt = prover.run().unwrap();
 
     // Extract journal of receipt (i.e. output c, where c = a * b)
-    let axioms: Vec<String> = from_slice(&receipt.get_journal_vec().unwrap()).unwrap();
-    let theorems: Vec<String> = from_slice(&receipt.get_journal_vec().unwrap()).unwrap();
+    let theorem: Digest = from_slice(&receipt.get_journal_vec().unwrap()).unwrap();
 
     // Print an assertion
     println!(
-        "The metamath verifier succeeds, and I can prove it! It uses axioms {:?} and outputs theorems {:?}",
-        axioms, theorems
+        "The metamath verifier succeeds, and I can prove it! It outputs theorem hash {:?}",
+        theorem
     );
 
     // Here is where one would send 'receipt' over the network...

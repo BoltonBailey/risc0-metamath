@@ -1,9 +1,12 @@
 #![no_main]
 #![no_std]
 
-use risc0_zkvm_guest::env;
+// Somewhere, import these:
+use risc0_zkvm_guest::{env, sha};
 
 risc0_zkvm_guest::entry!(main);
+
+use risc0_zkp_core::sha::Digest;
 
 extern crate alloc;
 
@@ -11,6 +14,7 @@ use crate::alloc::borrow::ToOwned;
 use alloc::collections::BTreeMap;
 use alloc::collections::BTreeSet;
 use alloc::collections::VecDeque;
+// use alloc::format;
 use alloc::rc::Rc;
 use alloc::string::String;
 use alloc::vec;
@@ -160,6 +164,7 @@ pub struct Assertion {
     pub stat: Statement,
 }
 
+// Then update Assertion
 impl Assertion {
     pub fn to_string(&self) -> String {
         let mut out = String::new();
@@ -168,6 +173,33 @@ impl Assertion {
             out.push(' ');
         }
         out
+    }
+
+    pub fn hash(&self) -> Digest {
+        let mut ret = *sha::digest_u8_slice("Assertion".as_bytes());
+        for lt in self.stat.deref() {
+            let token_hash = *sha::digest_u8_slice(lt.deref().as_bytes());
+
+            let ret_bytes: Vec<u8> = ret
+                .as_slice()
+                .iter()
+                .map(|word| word.to_le_bytes())
+                .flatten()
+                .collect();
+            let tok_bytes: Vec<u8> = token_hash
+                .as_slice()
+                .iter()
+                .map(|word| word.to_le_bytes())
+                .flatten()
+                .collect();
+
+            let mut buffer = [0u8; 2 * 32];
+            buffer[..32].clone_from_slice(ret_bytes.as_slice());
+            buffer[32..].clone_from_slice(tok_bytes.as_slice());
+
+            ret = *sha::digest_u8_slice(&buffer);
+        }
+        ret
     }
 }
 
@@ -749,7 +781,8 @@ fn main() {
         panic!("Out should be successful")
     }
     let mut axioms = Vec::new();
-    let mut theorems = Vec::new();
+    // let mut theorems = Vec::new();
+    let mut some_theorem = Digest::default();
     for (_label, value) in mm.labels {
         // println!("Label: {}", label);
         match value.deref() {
@@ -759,14 +792,16 @@ fn main() {
             }
             LabelEntry::DollarP(a) => {
                 // println!("Verifying hypothesis  {:?}", a);
-                theorems.push(a.to_string());
+                some_theorem = a.hash();
             }
             LabelEntry::DollarF(_x) | LabelEntry::DollarE(_x) => {}
         }
     }
+
+    // let some_theorem_str: &str = &some_theorem;
     // mm.dump();
     // let elapsed = now.elapsed();
     // println!("Finished checking in {:.2?}, with result {}", elapsed, out);
-    env::commit(&axioms);
-    env::commit(&theorems);
+    // env::commit(&axioms);
+    env::commit(&some_theorem);
 }
