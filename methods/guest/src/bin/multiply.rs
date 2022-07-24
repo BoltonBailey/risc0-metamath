@@ -1,7 +1,8 @@
 #![no_main]
 #![no_std]
 
-// Somewhere, import these:
+// Adapted from https://github.com/jzw2/rust-metamath
+
 use risc0_zkvm_guest::{env, sha};
 
 risc0_zkvm_guest::entry!(main);
@@ -215,7 +216,7 @@ impl FrameStack {
             panic!("Const already defined")
         }
         if frame.v.contains(&token) {
-            panic!("consta elaryd defined as var in scope")
+            panic!("Const already defined as var in scope")
         }
         frame.c.insert(token);
     }
@@ -227,7 +228,7 @@ impl FrameStack {
             panic!("Variable already defined")
         }
         if frame.v.contains(&token) {
-            panic!("Variable elaryd defined as var in scope")
+            panic!("Variable already defined as var in scope")
         }
         frame.v.insert(token);
     }
@@ -439,7 +440,7 @@ impl MM {
                     label = None;
                 }
                 Some("$p") => {
-                    let label_u = label.clone().expect("$p must have elabel");
+                    let label_u = label.clone().expect("$p must have label");
                     if label == self.stop_label {
                         //could be rewritten better
                         return false;
@@ -448,7 +449,7 @@ impl MM {
                     let i = stat
                         .iter()
                         .position(|x| x.as_ref() == "$=")
-                        .expect("Mmust have $=");
+                        .expect("$p must have $=");
                     let proof = &stat[i + 1..].to_vec();
                     let stat = &stat[..i];
 
@@ -603,7 +604,7 @@ impl MM {
         }
 
         if stack.len() > 1 {
-            panic!("stack has anentry greater than >1 at end")
+            panic!("stack has an entry greater than >1 at end")
         }
         if stack[0] != stat {
             panic!(
@@ -616,17 +617,17 @@ impl MM {
     fn get_labels(&self, stat: Statement, _ep: usize) -> Vec<Label> {
         let Assertion {
             dvs: _dm,
-            f_hyps: mand_hyp_stmnts,
-            e_hyps: hype_stmnts,
+            f_hyps: mand_hyp_statements,
+            e_hyps: hype_statements,
             stat: _,
         } = self.fs.make_assertion(stat);
-        // println!("mand_hyps_stmnts {:?}", mand_hyp_stmnts);
+        // println!("mand_hyps_statements {:?}", mand_hyp_statements);
 
-        let mand_hyps = mand_hyp_stmnts
+        let mand_hyps = mand_hyp_statements
             .iter()
             .map(|(_k, v)| self.fs.lookup_f(v.clone()));
 
-        let hyps = hype_stmnts.iter().map(|s| self.fs.lookup_e(s.clone()));
+        let hyps = hype_statements.iter().map(|s| self.fs.lookup_e(s.clone()));
 
         let labels: Vec<Label> = mand_hyps.chain(hyps).collect(); // contains both the mandatory hypotheses and the e println!("Labels {:?}", labels);
 
@@ -681,7 +682,7 @@ impl MM {
 
             if &entry[0] != k {
                 panic!(
-                    "stack entry doesn't match mandatry var hypothess, found {} and {}",
+                    "stack entry doesn't match mandatory var hypothesis, found {} and {}",
                     &entry[0], k
                 );
             }
@@ -749,7 +750,7 @@ impl MM {
             // // // // println!("st: {:?}", stack);
         }
         if stack.len() != 1 {
-            panic!("stack has anentry greater than >1 at end")
+            panic!("stack has an entry greater than >1 at end")
         }
         if stack[0] != stat {
             panic!("assertion proved doesn't match ")
