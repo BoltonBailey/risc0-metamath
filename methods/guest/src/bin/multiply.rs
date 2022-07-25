@@ -176,6 +176,7 @@ impl Assertion {
         out
     }
 
+    // TODO: Do we need to put the other fields in the hash too?
     pub fn hash(&self) -> Digest {
         let mut ret = *sha::digest_u8_slice("Assertion".as_bytes());
         for lt in self.stat.deref() {
@@ -789,7 +790,7 @@ fn main() {
         match value.deref() {
             LabelEntry::DollarA(a) => {
                 // println!("Verifying hypothesis  {:?}", a);
-                axioms.push(a.to_string());
+                axioms.push(a.hash());
             }
             LabelEntry::DollarP(a) => {
                 // println!("Verifying hypothesis  {:?}", a);
@@ -803,6 +804,6 @@ fn main() {
     // mm.dump();
     // let elapsed = now.elapsed();
     // println!("Finished checking in {:.2?}, with result {}", elapsed, out);
-    // env::commit(&axioms);
+    env::commit(&axioms);
     env::commit(&some_theorem);
 }
