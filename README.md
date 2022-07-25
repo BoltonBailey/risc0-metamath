@@ -1,10 +1,10 @@
-# RISC Zero Rust Starter
+# RISC Zero Metamath Checker
 
-The `risc0-rust-starter` repository is a minimal starting project for zero-knowledge software development. In this RISC Zero "Hello World" project, we use zero-knowledge proof techniques to prove that we know the factors of some composite number `N`, without revealing what the factors are. 
+This repository, based on [`risc0-rust-starter`](https://github.com/risc0/risc0-rust-starter) and [`rust-metamath`](https://github.com/jzw2/rust-metamath), is a ZK-STARKed Metamath checker. It uses [RISC Zero](https://www.risczero.com/) to compile a checker for the [Metamath formal language](https://us.metamath.org/) to a RISC-V based zkVM.
 
-For more information, check out the [risc0/risc0 repository](https://www.github.com/risc0/risc0) and the [RISC Zero website](https://www.RISCZero.com).
+The prover provides a Metamath file and specifies a theorem name to the guest. The guest then returns a receipt which includes the hash of that theorem's statement, a list of hashes of axioms used by the file, and a zero-knowledge proof that that theorem can indeed be proved from the axioms.
 
-# Quick Start
+## Quick Start
 
 First, make sure [rustup](https://rustup.rs) is installed. This project uses a [nightly](https://doc.rust-lang.org/book/appendix-07-nightly-rust.html) version of [Rust](https://doc.rust-lang.org/book/ch01-01-installation.html), `rustup` will automatically install the correct version.
 
