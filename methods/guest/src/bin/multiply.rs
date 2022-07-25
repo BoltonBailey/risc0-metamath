@@ -766,6 +766,7 @@ impl MM {
 /// Checks a single file with no imports, given as a path string. Returns whether is succeeded
 fn main() {
     let lines: Vec<String> = env::read();
+    let target_theorem: String = env::read();
     // let lines: Vec<String> = vec![];
 
     let mut mm = MM::new(None, None);
@@ -785,7 +786,7 @@ fn main() {
     let mut axioms = Vec::new();
     // let mut theorems = Vec::new();
     let mut some_theorem = Digest::default();
-    for (_label, value) in mm.labels {
+    for (label, value) in mm.labels {
         // println!("Label: {}", label);
         match value.deref() {
             LabelEntry::DollarA(a) => {
@@ -794,7 +795,9 @@ fn main() {
             }
             LabelEntry::DollarP(a) => {
                 // println!("Verifying hypothesis  {:?}", a);
-                some_theorem = a.hash();
+                if label.deref() == target_theorem {
+                    some_theorem = a.hash();
+                }
             }
             LabelEntry::DollarF(_x) | LabelEntry::DollarE(_x) => {}
         }

@@ -18,6 +18,8 @@ fn main() {
         .map(|l| l.expect("Could not parse line"))
         .collect();
 
+    let target_theorem: String = "th1".to_string();
+
     // Multiply them inside the ZKP
     // First, we make the prover, loading the 'multiply' method
     let mut prover = Prover::new(&std::fs::read(MULTIPLY_PATH).unwrap(), MULTIPLY_ID).unwrap();
@@ -25,17 +27,22 @@ fn main() {
     prover
         .add_input(to_vec(&file_lines).unwrap().as_slice())
         .unwrap();
+    prover
+        .add_input(to_vec(&target_theorem).unwrap().as_slice())
+        .unwrap();
+
     // prover.add_input(to_vec(&b).unwrap().as_slice()).unwrap();
     // Run prover & generate receipt
     let receipt = prover.run().unwrap();
 
     // Extract journal of receipt (i.e. output c, where c = a * b)
+    let axioms: Vec<Digest> = from_slice(&receipt.get_journal_vec().unwrap()).unwrap();
     let theorem: Digest = from_slice(&receipt.get_journal_vec().unwrap()).unwrap();
 
     // Print an assertion
     println!(
-        "The metamath verifier succeeds, and I can prove it! It outputs theorem hash {:?}",
-        theorem
+        "The metamath verifier succeeds, and I can prove it! It outputs theorem hash {:?} using axioms {:?}",
+        theorem, axioms
     );
 
     // Here is where one would send 'receipt' over the network...
