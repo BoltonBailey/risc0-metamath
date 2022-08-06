@@ -11,14 +11,14 @@ fn main() {
     // Pick two numbers
     // let a: u64 = 17;
     // let b: u64 = 23;
-    let file = File::open("theory/simple.mm".clone()).expect("Failed to find file");
+    let file = File::open("theory/matching-logic-propositional-one-file-to-first-thm.mm".clone()).expect("Failed to find file");
 
     let file_lines: Vec<String> = BufReader::new(file)
         .lines()
         .map(|l| l.expect("Could not parse line"))
         .collect();
 
-    let target_theorem: String = "th1".to_string();
+    let target_theorem: String = "imp-reflexivity".to_string();
 
     // Multiply them inside the ZKP
     // First, we make the prover, loading the 'multiply' method
