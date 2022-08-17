@@ -1,7 +1,7 @@
 use methods::{MULTIPLY_ID, MULTIPLY_PATH};
-use risc0_zkp_core::sha::Digest;
-use risc0_zkvm_host::Prover;
-use risc0_zkvm_serde::{from_slice, to_vec};
+use risc0_zkp::core::sha::Digest;
+use risc0_zkvm::host::Prover;
+use risc0_zkvm::serde::{from_slice, to_vec};
 
 use std::fs::File;
 use std::io::BufRead;
@@ -11,7 +11,7 @@ fn main() {
     // Pick two numbers
     // let a: u64 = 17;
     // let b: u64 = 23;
-    let file = File::open("theory/simple.mm".clone()).expect("Failed to find file");
+    let file = File::open("theory/matching-logic-240-loc.mm".clone()).expect("Failed to find file");
 
     let file_lines: Vec<String> = BufReader::new(file)
         .lines()

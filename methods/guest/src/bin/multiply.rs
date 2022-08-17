@@ -7,7 +7,7 @@ use risc0_zkvm_guest::{env, sha};
 
 risc0_zkvm_guest::entry!(main);
 
-use risc0_zkp_core::sha::Digest;
+use risc0_zkp::core::sha::Digest;
 
 extern crate alloc;
 
@@ -722,7 +722,7 @@ impl MM {
         substituted
     }
 
-    fn verify(&mut self, stat_label: String, stat: Statement, proof: Proof) {
+    fn verify(&mut self, _stat_label: String, stat: Statement, proof: Proof) {
         let mut stack: Vec<Statement> = vec![];
         let _stat_type = stat[0].clone();
         if proof[0].as_ref() == "(" {
