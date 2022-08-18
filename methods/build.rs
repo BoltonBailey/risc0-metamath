@@ -4,7 +4,7 @@ use std::{collections::HashMap};
 fn main() {
 
     let inner_pkg_options = GuestOptions {
-        code_limit: 13,
+        code_limit: 20,
         features: vec![],
     };
 
