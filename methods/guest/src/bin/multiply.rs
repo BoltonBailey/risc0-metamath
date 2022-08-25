@@ -54,11 +54,9 @@ impl Tokens {
         // println!("inside read function with state {:?}", self);
         while self.token_buffer.is_empty() {
             //println!("Buffer is empty, refilling");
-            // let mut line = String::new();
-            // pretend this succeeds
-            // let result = self.lines_buffer.last_mut().unwrap().read_line(&mut line);
-            let result = self.lines_buffer.pop_front();
-            // println!("Read line: {}", line);
+            
+            // let result = self.lines_buffer.pop_front();
+            let result: Option<String> = env::read();
 
             match result {
                 Some(line) => {
@@ -765,9 +763,9 @@ impl MM {
 
 /// Checks a single file with no imports, given as a path string. Returns whether is succeeded
 fn main() {
-    let lines: Vec<String> = env::read();
     let target_theorem: String = env::read();
-    // let lines: Vec<String> = vec![];
+    // let lines: Vec<String> = env::read();
+    let lines: Vec<String> = vec![];
 
     let mut mm = MM::new(None, None);
 
