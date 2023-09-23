@@ -1,6 +1,6 @@
 # RISC Zero Metamath Checker
 
-UPDATE: This project uses an old version of Risc0. For a more recent iteration of this project, see [this repo](https://github.com/BoltonBailey/risc0-metamath-15).
+**UPDATE: This project uses an old version of Risc0. For a more recent iteration of this project, see [this repo](https://github.com/BoltonBailey/risc0-metamath-15).**
 
 This repository, based on [`risc0-rust-starter`](https://github.com/risc0/risc0-rust-starter) and [`rust-metamath`](https://github.com/jzw2/rust-metamath), is a ZK-STARKed Metamath checker. It uses [RISC Zero](https://www.risczero.com/) to compile a checker for the [Metamath formal language](https://us.metamath.org/) to a RISC-V based zkVM.
 
