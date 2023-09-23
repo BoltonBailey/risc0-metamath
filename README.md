@@ -1,5 +1,7 @@
 # RISC Zero Metamath Checker
 
+UPDATE: This project uses an old version of Risc0. For a more recent iteration of this project, see [this repo](https://github.com/BoltonBailey/risc0-metamath-15).
+
 This repository, based on [`risc0-rust-starter`](https://github.com/risc0/risc0-rust-starter) and [`rust-metamath`](https://github.com/jzw2/rust-metamath), is a ZK-STARKed Metamath checker. It uses [RISC Zero](https://www.risczero.com/) to compile a checker for the [Metamath formal language](https://us.metamath.org/) to a RISC-V based zkVM.
 
 The prover provides a Metamath file and specifies a theorem name to the guest. The guest then returns a receipt which includes the hash of that theorem's statement, a list of hashes of axioms used by the file, and a zero-knowledge proof that that theorem can indeed be proved from the axioms.
